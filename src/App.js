@@ -18,6 +18,7 @@ export default function App() {
   // -------------------------------
   // CONNECT WEBSOCKET ONCE
   // -------------------------------
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (wsRef.current) return;
 
@@ -128,7 +129,7 @@ export default function App() {
     };
 
     setWs(socket);
-  }, [avatar, status]);
+  }, []);
 
   // -------------------------------
   // SAFE SEND FUNCTION
@@ -138,6 +139,7 @@ export default function App() {
       console.warn("⏳ WS not ready — try again");
       return;
     }
+    const wsReady = ws && ws.readyState === WebSocket.OPEN;
     ws.send(JSON.stringify(data));
   };
 
@@ -177,14 +179,14 @@ export default function App() {
       {status === "menu" && (
         <>
           <h2>Create / Join Room</h2>
-          <button onClick={createRoom}>Create Room</button>
+          <button onClick={createRoom} disabled={!wsReady}>Create Room</button>
           <br /><br />
           <input
             placeholder="Enter room ID"
             value={roomIdInput}
             onChange={(e) => setRoomIdInput(e.target.value)}
           />
-          <button onClick={joinRoom}>Join Room</button>
+          <button onClick={joinRoom} disabled={!wsReady}>Join Room</button>
         </>
       )}
 
