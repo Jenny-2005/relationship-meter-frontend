@@ -22,7 +22,7 @@ export default function App() {
   useEffect(() => {
     if (wsRef.current) return;
 
-    const socket = new WebSocket("wss://relationship-mirror-game-backend.onrender.com");
+    const socket = new WebSocket(import.meta.env.VITE_BACKEND_URL);
     wsRef.current = socket;
 
     socket.onopen = () => {
