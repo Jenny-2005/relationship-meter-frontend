@@ -13,7 +13,6 @@ export default function App() {
   const [distance, setDistance] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
   const [connected, setConnected] = useState(false);
-  const wsReady = connected;
   const playerNumberRef = useRef(null);
   const wsRef = useRef(null);
 
@@ -186,14 +185,14 @@ export default function App() {
       {status === "menu" && (
         <>
           <h2>Create / Join Room</h2>
-          <button onClick={createRoom} disabled={!wsReady}>Create Room</button>
+          <button onClick={createRoom} disabled={!connected}>Create Room</button>
           <br /><br />
           <input
             placeholder="Enter room ID"
             value={roomIdInput}
             onChange={(e) => setRoomIdInput(e.target.value)}
           />
-          <button onClick={joinRoom} disabled={!wsReady}>Join Room</button>
+          <button onClick={joinRoom} disabled={!connected}>Join Room</button>
         </>
       )}
 
