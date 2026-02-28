@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 
 export default function App() {
   const [ws, setWs] = useState(null);
-  const wsReady = connected;
   const [roomId, setRoomId] = useState("");
   const [roomIdInput, setRoomIdInput] = useState("");
   const [avatar, setAvatar] = useState(null);
@@ -14,6 +13,7 @@ export default function App() {
   const [distance, setDistance] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
   const [connected, setConnected] = useState(false);
+  const wsReady = connected;
   const playerNumberRef = useRef(null);
   const wsRef = useRef(null);
 
