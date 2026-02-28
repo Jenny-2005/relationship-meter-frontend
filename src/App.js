@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 
 export default function App() {
   const [ws, setWs] = useState(null);
+  const wsReady = ws && ws.readyState === WebSocket.OPEN;
   const [roomId, setRoomId] = useState("");
   const [roomIdInput, setRoomIdInput] = useState("");
   const [avatar, setAvatar] = useState(null);
@@ -22,7 +23,7 @@ export default function App() {
   useEffect(() => {
     if (wsRef.current) return;
 
-    const socket = new WebSocket(import.meta.env.VITE_BACKEND_URL);
+    const socket = new WebSocket(process.env.REACT_APP_WS_URL);
     wsRef.current = socket;
 
     socket.onopen = () => {
@@ -139,7 +140,6 @@ export default function App() {
       console.warn("⏳ WS not ready — try again");
       return;
     }
-    const wsReady = ws && ws.readyState === WebSocket.OPEN;
     ws.send(JSON.stringify(data));
   };
 
