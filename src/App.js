@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 
 export default function App() {
   const [ws, setWs] = useState(null);
-  const wsReady = ws && ws.readyState === WebSocket.OPEN;
+  const wsReady = connected;
   const [roomId, setRoomId] = useState("");
   const [roomIdInput, setRoomIdInput] = useState("");
   const [avatar, setAvatar] = useState(null);
@@ -13,6 +13,7 @@ export default function App() {
   const [opponentPos, setOpponentPos] = useState(41);
   const [distance, setDistance] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [connected, setConnected] = useState(false);
   const playerNumberRef = useRef(null);
   const wsRef = useRef(null);
 
@@ -28,6 +29,12 @@ export default function App() {
 
     socket.onopen = () => {
       console.log("🔗 Connected to server");
+      setConnected(true);
+    };
+    socket.onclose = () => {
+      console.log("❌ Disconnected from server");
+      setConnected(false);
+      wsRef.current = null;
     };
 
     socket.onmessage = (event) => {
