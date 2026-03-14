@@ -111,6 +111,7 @@ export default function App() {
             id: message.id,
             text: message.text
           });
+          setSelected(null);
           break;
         
         case "UPDATE":
