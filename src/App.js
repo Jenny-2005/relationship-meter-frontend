@@ -234,7 +234,6 @@ export default function App() {
                 setSelected("yes");
               }}
               style={{ backgroundColor: selected === "yes" ? "green" : "" }}
-              disabled={selected !== null}
               >
                 Yes
               </button>
@@ -243,7 +242,6 @@ export default function App() {
                 setSelected("no");
               }}
               style={{ backgroundColor: selected === "no" ? "green" : "" }}
-              disabled={selected !== null}
               >
                 No
               </button>
