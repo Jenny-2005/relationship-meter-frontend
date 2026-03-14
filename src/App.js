@@ -10,9 +10,10 @@ export default function App() {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [yourPos, setYourPos] = useState(40);
   const [opponentPos, setOpponentPos] = useState(41);
-  const [distance, setDistance] = useState(1);
+  const [distance, setDistance] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [connected, setConnected] = useState(false);
+  const [selected, setSelected] = useState(null);
   const playerNumberRef = useRef(null);
   const wsRef = useRef(null);
 
@@ -220,17 +221,30 @@ export default function App() {
 
       {status === "game" && (
         <>
-          <h2>🎮 Game Started</h2>
+          <h2>🎮 Game Started 🎮</h2>
           <p>You: {avatar}</p>
           <p>Partner: {partnerAvatar}</p>
 
           {currentQuestion && (
             <div>
               <h3>{currentQuestion.text}</h3>
-              <button onClick={() => sendWS({ type: "ANSWER", answer: "yes" })}>
+              <button 
+              onClick={() => {
+                sendWS({ type: "ANSWER", answer: "yes" });
+                setSelected("yes");
+              }}
+              style={{ backgroundColor: selected === "yes" ? "green" : "" }}
+              disabled={selected !== null}
+              >
                 Yes
               </button>
-              <button onClick={() => sendWS({ type: "ANSWER", answer: "no" })}>
+              <button onClick={() => {
+                sendWS({ type: "ANSWER", answer: "no" });
+                setSelected("no");
+              }}
+              style={{ backgroundColor: selected === "no" ? "green" : "" }}
+              disabled={selected !== null}
+              >
                 No
               </button>
             </div>
@@ -271,7 +285,7 @@ export default function App() {
                 {partnerAvatar}
               </div>
             </div>
-            <p>💔 Distance between you: {distance} chairs</p>
+            <p>💔 You and Your Partner is {distance} chairs apart</p>
         </>
       )}
     </div>
