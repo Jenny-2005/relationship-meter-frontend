@@ -234,7 +234,10 @@ export default function App() {
                 sendWS({ type: "ANSWER", answer: "yes" });
                 setSelected("yes");
               }}
-              style={{ backgroundColor: selected === "yes" ? "green" : "" }}
+              style={{ 
+                backgroundColor: selected === "yes" ? "green" : "",
+                color: selected === "yes" ? "white" : "black"
+               }}
               >
                 Yes
               </button>
@@ -242,7 +245,10 @@ export default function App() {
                 sendWS({ type: "ANSWER", answer: "no" });
                 setSelected("no");
               }}
-              style={{ backgroundColor: selected === "no" ? "green" : "" }}
+              style={{ 
+                backgroundColor: selected === "no" ? "green" : "",
+                color: selected === "no" ? "white" : "black"
+               }}
               >
                 No
               </button>
