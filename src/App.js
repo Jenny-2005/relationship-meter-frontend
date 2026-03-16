@@ -203,7 +203,7 @@ export default function App() {
           <h2>Room: {roomId}</h2>
 
           <p>Select your avatar:</p>
-          {["🐱", "🐶", "🐵", "🐰"].map((a) => (
+          {["👱‍♀️","👩‍🦳","🧑","👱‍♂️"].map((a) => (
             <button
               key={a}
               onClick={() => selectAvatar(a)}
@@ -258,12 +258,24 @@ export default function App() {
               style={{
                 position: "relative",
                 width: 600,
-                height: 200,
+                height: 150,
                 margin: "40px auto",
                 border: "2px dashed #ccc",
                 overflow: "hidden"
               }}
             >
+             {/* BAR TRACK */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "60px",
+                  left: 0,
+                  width: "100%",
+                  height: "8px",
+                  background: "linear-gradient(to right, #ff4d4d, #ffd166, #06d6a0)",
+                  borderRadius: "10px"
+                }}
+              />
               {/* YOU */}
               <div
                 style={{
@@ -271,6 +283,7 @@ export default function App() {
                   left: chairToX(yourPos),
                   top: 80,
                   fontSize: "40px",
+                  transform: "translateX(-50%)",
                   transition: isAnimating ? "left 0.6s ease-out" : "none"
                 }}
               >
@@ -284,6 +297,7 @@ export default function App() {
                   left: chairToX(opponentPos),
                   top: 80,
                   fontSize: "40px",
+                  transform: "translateX(-50%)",
                   transition: isAnimating ? "left 0.6s ease-out" : "none"
                 }}
               >
