@@ -231,7 +231,7 @@ export default function App() {
           padding: "20px"
         }}>
           <h2>🎮 Game Started 🎮</h2>
-          <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", width: "600px" }}>
             <p>You: {avatar}</p>
             <p>Partner: {partnerAvatar}</p>
           </div>
