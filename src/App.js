@@ -231,8 +231,10 @@ export default function App() {
           padding: "20px"
         }}>
           <h2>🎮 Game Started 🎮</h2>
-          <p>You: {avatar}</p>
-          <p>Partner: {partnerAvatar}</p>
+          <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+            <p>You: {avatar}</p>
+            <p>Partner: {partnerAvatar}</p>
+          </div>
           <p>Room ID : {roomId}</p>
           {currentQuestion && (
             <div>
@@ -266,7 +268,7 @@ export default function App() {
               style={{
                 position: "relative",
                 width: 600,
-                height: 150,
+                height: 100,
                 margin: "40px auto",
                 border: "2px dashed #ccc",
                 overflow: "hidden"
@@ -276,10 +278,10 @@ export default function App() {
               <div
                 style={{
                   position: "absolute",
-                  top: "60px",
+                  top: "50%",
                   left: 0,
                   width: "100%",
-                  height: "8px",
+                  height: "10px",
                   background: "linear-gradient(to right, #ff4d4d, #ffd166, #06d6a0)",
                   borderRadius: "10px"
                 }}
@@ -289,9 +291,11 @@ export default function App() {
                 style={{
                   position: "absolute",
                   left: chairToX(yourPos),
-                  top: 80,
-                  fontSize: "40px",
-                  transition: isAnimating ? "left 0.6s ease-out" : "none"
+                  top: "50%",
+                  transform: `translateX(-50%) translateY(-50%) scale(${isAnimating ? 1.3 : 1})`,
+                  fontSize: "36px",
+                  transition: isAnimating ? "left 0.6s ease-out, transform 0.3s ease-in-out" : "none",
+                  filter: "drop-shadow(0px 4px 4px rgba(0,0,0,0.3))"
                 }}
               >
                 {avatar}
@@ -302,9 +306,11 @@ export default function App() {
                 style={{
                   position: "absolute",
                   left: chairToX(opponentPos),
-                  top: 80,
-                  fontSize: "40px",
-                  transition: isAnimating ? "left 0.6s ease-out" : "none"
+                  top: "50%",
+                  transform: `translateX(-50%) translateY(-50%) scale(${isAnimating ? 1.3 : 1})`,
+                  fontSize: "36px",
+                  transition: isAnimating ? "left 0.6s ease-out, transform 0.3s ease-in-out" : "none",
+                  filter: "drop-shadow(0px 4px 4px rgba(0,0,0,0.3))"
                 }}
               >
                 {partnerAvatar}
