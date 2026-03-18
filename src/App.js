@@ -22,32 +22,37 @@ export default function App() {
 
   // Add this useEffect for petals
   useEffect(() => {
-    const colors = ['#ffb3cc','#ffd6e8','#ff8fab','#ffc2d4','#ff85a1','#ffe4ec'];
-    const shapes = ['50% 0 50% 0','0 50% 0 50%','50% 50% 0 0','0 0 50% 50%'];
-    const container = document.getElementById('petals-container');
-    if (!container) return;
+  const colors = ['#ffb3cc','#ffd6e8','#ff8fab','#ffc2d4','#ff85a1','#ffe4ec'];
+  const shapes = ['50% 0 50% 0','0 50% 0 50%','50% 50% 0 0','0 0 50% 50%'];
+  const container = document.getElementById('petals-container');
+  if (!container) return;
 
-    for (let i = 0; i < 80; i++) {
-      const el = document.createElement('div');
-      el.className = 'petal';
-      const size = 8 + Math.random() * 11;
-      el.style.cssText = `
-        left: ${Math.random() * 100}%;
-        top: ${Math.random() * 100}%;
-        width: ${size}px;
-        height: ${size * 0.75}px;
-        background: ${colors[Math.floor(Math.random() * colors.length)]};
-        border-radius: ${shapes[Math.floor(Math.random() * shapes.length)]};
-        opacity: ${0.55 + Math.random() * 0.4};
-        transform: rotate(${Math.random() * 360}deg);
-      `;
-      container.appendChild(el);
-    }
+  // clear first to avoid duplicates on re-render
+  container.innerHTML = '';
 
-    return () => {
-      if (container) container.innerHTML = '';
-    };
-  }, []);
+  for (let i = 0; i < 80; i++) {
+    const el = document.createElement('div');
+    el.className = 'petal';
+    const size = 8 + Math.random() * 11;
+    const delay = Math.random() * 4;      // 👈 stagger sway animation
+    el.style.cssText = `
+      left: ${Math.random() * 100}%;
+      top: ${Math.random() * 100}%;
+      width: ${size}px;
+      height: ${size * 0.75}px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      border-radius: ${shapes[Math.floor(Math.random() * shapes.length)]};
+      opacity: ${0.55 + Math.random() * 0.4};
+      transform: rotate(${Math.random() * 360}deg);
+      animation-delay: ${delay}s;
+    `;
+    container.appendChild(el);
+  }
+
+  return () => {
+    if (container) container.innerHTML = '';
+  };
+}, []);
   // -------------------------------
   // CONNECT WEBSOCKET ONCE
   // -------------------------------
@@ -208,18 +213,20 @@ export default function App() {
   };
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "linear-gradient(160deg, #fff0f5 0%, #ffd6e8 40%, #ffb3cc 100%)",
-      position: "relative",
-      overflow: "hidden"
+   <div style={{
+    minHeight: "100vh",
+    width: "100%",           // 👈 add this
+    background: "linear-gradient(160deg, #fff0f5 0%, #ffd6e8 40%, #ffb3cc 100%)",
+    position: "relative",
+    overflow: "hidden"
     }}>
-      {/* Petals container */}
-      <div id="petals-container" style={{ position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none" }} />
-
-      {/* All your existing content below */}
-      <h2>...</h2>
-      ...
+    <div id="petals-container" style={{ 
+      position: "fixed",     // 👈 change absolute to fixed
+      top: 0, left: 0,       // 👈 explicitly set top/left
+      right: 0, bottom: 0,   // 👈 explicitly set right/bottom
+      zIndex: 1, 
+      pointerEvents: "none" 
+    }} />
     <div style={{ padding: 20 }}>
 
       {status === "menu" && (
