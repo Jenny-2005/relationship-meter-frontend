@@ -221,11 +221,19 @@ export default function App() {
       {status === "waiting" && <h2>Waiting for partner…</h2>}
 
       {status === "game" && (
-        <>
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          minHeight: "100vh", // or remove if you don't want full-page centering
+          padding: "20px"
+        }}>
           <h2>🎮 Game Started 🎮</h2>
           <p>You: {avatar}</p>
           <p>Partner: {partnerAvatar}</p>
-
+          <p>Room ID : {roomId}</p>
           {currentQuestion && (
             <div>
               <h3>{currentQuestion.text}</h3>
@@ -283,7 +291,6 @@ export default function App() {
                   left: chairToX(yourPos),
                   top: 80,
                   fontSize: "40px",
-                  transform: "translateX(-50%)",
                   transition: isAnimating ? "left 0.6s ease-out" : "none"
                 }}
               >
@@ -297,7 +304,6 @@ export default function App() {
                   left: chairToX(opponentPos),
                   top: 80,
                   fontSize: "40px",
-                  transform: "translateX(-50%)",
                   transition: isAnimating ? "left 0.6s ease-out" : "none"
                 }}
               >
@@ -305,7 +311,7 @@ export default function App() {
               </div>
             </div>
             <p>💔 You and Your Partner is {distance} chairs apart</p>
-        </>
+        </div>
       )}
     </div>
   );
