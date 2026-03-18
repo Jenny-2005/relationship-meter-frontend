@@ -16,7 +16,38 @@ export default function App() {
   const [selected, setSelected] = useState(null);
   const playerNumberRef = useRef(null);
   const wsRef = useRef(null);
+  // Add this ref near your other refs at the top of the component
+  const avatarRef = useRef(avatar);
+  useEffect(() => { avatarRef.current = avatar; }, [avatar]);
 
+  // Add this useEffect for petals
+  useEffect(() => {
+    const colors = ['#ffb3cc','#ffd6e8','#ff8fab','#ffc2d4','#ff85a1','#ffe4ec'];
+    const shapes = ['50% 0 50% 0','0 50% 0 50%','50% 50% 0 0','0 0 50% 50%'];
+    const container = document.getElementById('petals-container');
+    if (!container) return;
+
+    for (let i = 0; i < 80; i++) {
+      const el = document.createElement('div');
+      el.className = 'petal';
+      const size = 8 + Math.random() * 11;
+      el.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        width: ${size}px;
+        height: ${size * 0.75}px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        border-radius: ${shapes[Math.floor(Math.random() * shapes.length)]};
+        opacity: ${0.55 + Math.random() * 0.4};
+        transform: rotate(${Math.random() * 360}deg);
+      `;
+      container.appendChild(el);
+    }
+
+    return () => {
+      if (container) container.innerHTML = '';
+    };
+  }, []);
   // -------------------------------
   // CONNECT WEBSOCKET ONCE
   // -------------------------------
@@ -31,12 +62,7 @@ export default function App() {
       console.log("🔗 Connected to server");
       setConnected(true);
     };
-    socket.onclose = () => {
-      console.log("❌ Disconnected from server");
-      setConnected(false);
-      wsRef.current = null;
-    };
-
+    
     socket.onmessage = (event) => {
       console.log("📩 RAW:", event.data);
       const message = JSON.parse(event.data);
@@ -182,6 +208,18 @@ export default function App() {
   };
 
   return (
+    <div style={{
+      minHeight: "100vh",
+      background: "linear-gradient(160deg, #fff0f5 0%, #ffd6e8 40%, #ffb3cc 100%)",
+      position: "relative",
+      overflow: "hidden"
+    }}>
+      {/* Petals container */}
+      <div id="petals-container" style={{ position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none" }} />
+
+      {/* All your existing content below */}
+      <h2>...</h2>
+      ...
     <div style={{ padding: 20 }}>
 
       {status === "menu" && (
@@ -230,7 +268,7 @@ export default function App() {
           minHeight: "100vh", // or remove if you don't want full-page centering
           padding: "20px"
         }}>
-          <h2>🎮 Game Started 🎮</h2>
+          <h2>💞 Relationship Reflection Journey 💞</h2>
           <div style={{ display: "flex", justifyContent: "space-between", width: "600px" }}>
             <p>You: {avatar}</p>
             <p>Partner: {partnerAvatar}</p>
@@ -319,6 +357,7 @@ export default function App() {
             <p>💔 You and Your Partner is {distance} chairs apart</p>
         </div>
       )}
+    </div>
     </div>
   );
 }
