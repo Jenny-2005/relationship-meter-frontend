@@ -16,6 +16,11 @@ export default function App() {
   const [selected, setSelected] = useState(null);
   const playerNumberRef = useRef(null);
   const wsRef = useRef(null);
+  const [gameOver, setGameOver] = useState(false);
+  // Add this ref
+  const currentQuestionIdRef = useRef(null);
+  // Add this with your other states at the top
+  const [finalDistance, setFinalDistance] = useState(0);
   // Add this ref near your other refs at the top of the component
   const avatarRef = useRef(avatar);
   useEffect(() => { avatarRef.current = avatar; }, [avatar]);
@@ -143,8 +148,9 @@ export default function App() {
             text: message.text
           });
           setSelected(null);
+          currentQuestionIdRef.current = message.id;
           break;
-        
+
         case "UPDATE":
           setIsAnimating(true);
 
@@ -155,7 +161,12 @@ export default function App() {
           setTimeout(() => {
             setIsAnimating(false);
           }, 600);
-
+          if (currentQuestionIdRef.current === 41) {
+            setTimeout(() => {
+              setGameOver(true);
+              setFinalDistance(message.distance); // use message.distance directly, not ref
+            }, 800); // small delay so animation finishes first
+          }
           break;
 
         default:
@@ -365,6 +376,61 @@ export default function App() {
         </div>
       )}
     </div>
-    </div>
-  );
-}
+   {/* GAME OVER POPUP */}
+    {gameOver && (
+      <div style={{
+        position: "fixed",
+        top: 0, left: 0,
+        width: "100%", height: "100%",
+        background: "rgba(0,0,0,0.6)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 999
+      }}>
+        <div style={{
+          background: "linear-gradient(160deg, #fff0f5 0%, #ffd6e8 40%, #ffb3cc 100%)",
+          padding: 40,
+          borderRadius: 20,
+          textAlign: "center",
+          border: "4px solid #c0607a",
+          maxWidth: 400,
+          width: "90%"
+        }}>
+          <h2 style={{ fontSize: 36, marginBottom: 8 }}>🎉 Journey Complete!</h2>
+          <p style={{ fontSize: 18, margin: "12px 0", color: "#4a0d20" }}>
+            {finalDistance === 0
+              ? "💕 You two are perfectly in sync!"
+              : finalDistance <= 5
+              ? "💞 So close! You're almost in sync!"
+              : finalDistance <= 15
+              ? "💛 A little work and you'll be perfect!"
+              : "💔 You have some reflecting to do!"}
+          </p>
+          <p style={{ fontSize: 22, fontWeight: "bold", color: "#c0607a", margin: "8px 0" }}>
+            Final Distance: {finalDistance} chairs apart
+          </p>
+          <p style={{ fontSize: 14, color: "#888", margin: "8px 0 20px" }}>
+            You: {avatar} &nbsp;|&nbsp; Partner: {partnerAvatar}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              padding: "12px 32px",
+              background: "#c0607a",
+              color: "white",
+              border: "none",
+              borderRadius: 10,
+              fontSize: 16,
+              cursor: "pointer",
+              fontWeight: 600
+            }}
+          >
+            Play Again 🌸
+          </button>
+        </div>
+      </div>
+    )}
+
+  </div>
+);
