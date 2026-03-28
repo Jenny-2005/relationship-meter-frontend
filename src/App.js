@@ -338,7 +338,7 @@ export default function App() {
                   left: 0,
                   width: "100%",
                   height: "10px",
-                  background: "linear-gradient(to right, #ff4d4d, #ffd166, #06d6a0)",
+                  background: "linear-gradient(to right, #ff4d4d, #ffd166, #06d6a0, #ffd166 , #ff4d4d)",
                   borderRadius: "10px"
                 }}
               />
